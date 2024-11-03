@@ -1,0 +1,40 @@
+.contenu__restapi {
+    // display: flex;
+    // justify-content: center;
+    // gap: 2rem;
+    // flex-wrap: wrap;
+}
+
+.restapi__carte {
+    flex: 1 0 30%;
+    & .carte {
+        flex: auto;
+    }
+}
+.bouton__categorie {
+    background-color: hsl(210, 90%, 10%);
+    color: hsl(210, 10%, 95%);
+    border: 2px solid hsl(210, 90%, 10%);
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    &:hover {
+        background-color: hsl(210, 10%, 95%);
+        color: hsl(210, 90%, 10%);
+    }
+}
+.bouton__categorie__actif {
+    background-color: hsl(30, 80%, 50%);
+    border: 2px solid hsl(30, 80%, 50%);
+    color: hsl(210, 10%, 95%);
+}
+.contenu__categories h6 {
+    //display: flex;
+    //flex-wrap: wrap;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+}
