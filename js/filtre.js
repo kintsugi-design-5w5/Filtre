@@ -3,18 +3,23 @@
     // URL de l'API REST de WordPress
     let bouton__categorie = document.querySelectorAll(".bouton__categorie");
     let url;
+
     for (const elm of bouton__categorie) {
         elm.addEventListener("mousedown", function (e) {
-            let categorie = document.querySelectorAll(".bouton__categorie");
-            for (const elm of categorie) {
-                elm.classList.remove("bouton__categorie__actif");
-            }
+            // Enlever la classe active de tous les boutons
+            bouton__categorie.forEach((b) => b.classList.remove("bouton__categorie__actif"));
+            // Ajouter la classe active au bouton cliqué
             elm.classList.add("bouton__categorie__actif");
-            categorie = e.target.id;
 
-            categorie = categorie.replace("cat_", "");
-            // url = `https://gftnth00.mywhc.ca/tim43/wp-json/wp/v2/posts?categorie=${categorie}&_fields=link,title,featured_media,_links,_embedded,content,categories,terms&_embed`;
-            url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&_fields=link,title,featured_media,_links,_embedded,content,terms&_embed`;
+            let categorie = e.target.id.replace("cat_", "");
+
+            if (categorie === "tous") {
+                // URL pour récupérer tous les projets
+                url = `http://localhost/5w5/wp-json/wp/v2/posts?_fields=link,title,featured_media,_links,_embedded,content,terms&_embed`;
+            } else {
+                // URL pour récupérer les projets par catégorie
+                url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&_fields=link,title,featured_media,_links,_embedded,content,terms&_embed`;
+            }
 
             console.log(url);
             fetchUrl(url);
@@ -50,23 +55,23 @@
 
                 data.forEach(function (article, index) {
                     let titre = article.title.rendered;
-                    let categorie = article.categorie;
                     let lien = article.link;
-
-                    let carte = document.createElement("div");
-                    carte.classList.add("thumbnail-projet"); // Ajouter la classe pour le style
-
                     let image;
                     if (article._embedded["wp:featuredmedia"]) {
-                        image = article._embedded["wp:featuredmedia"][0].link;
+                        image = article._embedded["wp:featuredmedia"][0].link; // Utilise le bon chemin pour l'image
+                    } else {
+                        image = ""; // Fallback si aucune image n'est disponible
                     }
 
                     // Remplacer le innerHTML pour correspondre à la structure souhaitée
+                    let carte = document.createElement("div");
+                    carte.classList.add("thumbnail-projet"); // Ajouter la classe pour le style
+
                     carte.innerHTML = `
-                    <a href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
-                        <h2>${titre}</h2>
-                    </a>
-                `;
+                        <a href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
+                            <h2>${titre}</h2>
+                        </a>
+                    `;
 
                     // Ajouter la carte à la colonne appropriée
                     if (index % 2 === 0) {

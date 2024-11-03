@@ -6,42 +6,27 @@
   z-index: 20;
   display: flex;
   justify-content: space-between;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: hsla(0, 0%, 30%, 0.3);
   backdrop-filter: blur(5px);
   border-radius: 50px;
 }
 
-.restapi__carte {
-  flex: 1 0 30%;
-}
-.restapi__carte .carte {
-  flex: auto;
-}
-
 .bouton__categorie {
-  background-color: hsl(210, 90%, 10%);
-  color: hsl(210, 10%, 95%);
-  border: 2px solid hsl(210, 90%, 10%);
-  padding: 0.5rem 1rem;
+  font-family: "Josefin Sans", sans-serif;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #ebebeb;
+  background-color: transparent;
+  border: none;
+  padding: 1rem 1rem 0.7rem 1rem;
   margin: 0.5rem;
   border-radius: 50px;
-  cursor: pointer;
   transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
 .bouton__categorie:hover {
-  background-color: hsl(210, 10%, 95%);
-  color: hsl(210, 90%, 10%);
+  background-color: hsla(0, 0%, 50%, 0.3);
 }
 
 .bouton__categorie__actif {
-  background-color: hsl(30, 80%, 50%);
-  border: 2px solid hsl(30, 80%, 50%);
-  color: hsl(210, 10%, 95%);
-}
-
-.contenu__categories h6 {
-  margin: 0;
-  margin-bottom: 0.5rem;
-  margin-top: 1.5rem;
-  margin-left: 1rem;
+  background-color: #007bff;
 }/*# sourceMappingURL=style.css.map */

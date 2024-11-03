@@ -72,7 +72,8 @@ function generer_boutons_filtre_categorie_shortcode() {
 
     // Initialise la variable de sortie
     $contenu = '
-    <div class="composant-filtre">';
+    <div class="composant-filtre">
+        <button class="bouton__categorie" id="cat_tous">TOUS</button>'; // Ajout du bouton "TOUS"
 
     if ($categorie_filtres) {
         // Récupère les catégories enfants de la catégorie "Filtres"
