@@ -1,3 +1,16 @@
+.composant-filtre {
+  position: fixed;
+  bottom: 15vh;
+  right: 50vw;
+  transform: translateX(50%);
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 50px;
+}
+
 .restapi__carte {
   flex: 1 0 30%;
 }
