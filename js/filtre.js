@@ -1,88 +1,144 @@
 (function () {
-    console.log("rest API");
-    // URL de l'API REST de WordPress
     let bouton__categorie = document.querySelectorAll(".bouton__categorie");
     let url;
 
+    // Fonction pour gérer l'affichage des projets en fonction de la catégorie
+    function chargerProjets(categorie) {
+        url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
+        console.log(url);
+        fetchUrl(url);
+    }
+
+    // Détecte le mot-clé dans l'URL
+    const chemin = window.location.pathname;
+    let typePage = null;
+    if (chemin.includes("projets")) {
+        typePage = "projets";
+    } else if (chemin.includes("cours")) {
+        typePage = "cours";
+        let sectionProjets = document.querySelector(".projets-apercus");
+        sectionProjets.style.display = "none";
+    }
+
+    // Fonction pour afficher le contenu en fonction de typePage
+    function afficherContenuSpecifique(article) {
+        let titre = article.title.rendered;
+        let lien = article.link;
+        let contenu = article.content.rendered;
+        let titreModifie = titre.substring(7, titre.length - 6);
+
+        let carte = document.createElement("div");
+
+        // Différencier le HTML pour "projets" et "cours"
+        if (typePage === "projets") {
+            let image = article._embedded["wp:featuredmedia"] ? article._embedded["wp:featuredmedia"][0].source_url : "";
+            carte.innerHTML = `
+                <a href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
+                    <h2>${titre}</h2>
+                </a>
+            `;
+        } else if (typePage === "cours") {
+            const sessionId = titre.charAt(4); // Le 4e caractère (indice 3)
+            console.log("Session ID: " + sessionId);
+            carte.innerHTML = `
+                <li id="cours-${article.id}">
+                    <h3 class="cercle petit cours-btn" id="titre-cours-${article.id}">${titreModifie}</h3>
+                    <div class="description-cours" style="display: none;" id="description-cours-${article.id}">
+                        <p>${contenu}</p>
+                    </div>
+                </li>
+            `;
+            carte.dataset.sessionId = `session-${sessionId}`;
+        }
+
+        return carte;
+    }
+
+    // Ajouter la classe "actif" au bouton "TOUS" par défaut
+    const boutonTous = document.getElementById("cat_tous");
+    if (boutonTous) {
+        boutonTous.classList.add("bouton__categorie__actif");
+        if (typePage === "projets") {
+            chargerProjets("3"); // Charger tous les projets par défaut
+        } else if (typePage === "cours") {
+            chargerProjets("2"); // Charger tous les projets par défaut
+        }
+    }
+
+    // Gérer le clic sur les boutons de catégorie
     for (const elm of bouton__categorie) {
         elm.addEventListener("mousedown", function (e) {
-            // Enlever la classe active de tous les boutons
             bouton__categorie.forEach((b) => b.classList.remove("bouton__categorie__actif"));
-            // Ajouter la classe active au bouton cliqué
             elm.classList.add("bouton__categorie__actif");
 
-            let categorie = e.target.id.replace("cat_", "");
-
-            if (categorie === "tous") {
-                // URL pour récupérer tous les projets
-                url = `http://localhost/5w5/wp-json/wp/v2/posts?_fields=link,title,featured_media,_links,_embedded,content,terms&_embed`;
-            } else {
-                // URL pour récupérer les projets par catégorie
-                url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&_fields=link,title,featured_media,_links,_embedded,content,terms&_embed`;
+            let categorie;
+            if (typePage === "projets") {
+                categorie = "projets";
+                categorie = e.target.id.replace("cat_", "") + ",3";
+                if (elm.id === "cat_tous") {
+                    categorie = "3";
+                }
+            } else if (typePage === "cours") {
+                let sessions = document.querySelectorAll(".cours");
+                sessions.forEach((session) => {
+                    session.innerHTML = "";
+                });
+                categorie = e.target.id.replace("cat_", "") + ",2";
+                if (elm.id === "cat_tous") {
+                    categorie = "2";
+                }
             }
-
-            console.log(url);
-            fetchUrl(url);
+            chargerProjets(categorie);
         });
     }
 
-    // Effectuer la requête HTTP en utilisant fetch()
+    // Fonction pour effectuer la requête HTTP en utilisant fetch()
     function fetchUrl(url) {
         fetch(url)
             .then(function (response) {
-                // Vérifier si la réponse est OK (statut HTTP 200)
                 if (!response.ok) {
                     throw new Error("La requête a échoué avec le statut " + response.status);
                 }
-
-                // Analyser la réponse JSON
                 return response.json();
             })
             .then(function (data) {
-                // La variable "data" contient la réponse JSON
                 console.log(data);
 
-                // Triez les données par titre en ordre alphabétique
                 data.sort(function (a, b) {
                     return a.title.rendered.localeCompare(b.title.rendered);
                 });
 
-                // Récupérer les éléments des deux colonnes
                 let colonne1 = document.querySelector(".colonne-1");
                 let colonne2 = document.querySelector(".colonne-2");
-                colonne1.innerHTML = ""; // Réinitialiser le contenu
-                colonne2.innerHTML = ""; // Réinitialiser le contenu
+                colonne1.innerHTML = "";
+                colonne2.innerHTML = "";
 
-                data.forEach(function (article, index) {
-                    let titre = article.title.rendered;
-                    let lien = article.link;
-                    let image;
-                    if (article._embedded["wp:featuredmedia"]) {
-                        image = article._embedded["wp:featuredmedia"][0].link; // Utilise le bon chemin pour l'image
-                    } else {
-                        image = ""; // Fallback si aucune image n'est disponible
-                    }
+                if (typePage === "projets") {
+                    data.forEach(function (article, index) {
+                        let carte = afficherContenuSpecifique(article);
+                        if (index % 2 === 0) {
+                            colonne1.appendChild(carte);
+                        } else {
+                            colonne2.appendChild(carte);
+                        }
+                    });
+                } else if (typePage === "cours") {
+                    data.forEach(function (article) {
+                        let carte = afficherContenuSpecifique(article);
+                        const sessionId = carte.dataset.sessionId;
+                        const sessionElement = document.getElementById(sessionId);
+                        console.log("session-" + sessionId);
+                        sessionElement.style.display = "block";
 
-                    // Remplacer le innerHTML pour correspondre à la structure souhaitée
-                    let carte = document.createElement("div");
-                    carte.classList.add("thumbnail-projet"); // Ajouter la classe pour le style
-
-                    carte.innerHTML = `
-                        <a href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
-                            <h2>${titre}</h2>
-                        </a>
-                    `;
-
-                    // Ajouter la carte à la colonne appropriée
-                    if (index % 2 === 0) {
-                        colonne1.appendChild(carte); // Ajouter à la colonne 1
-                    } else {
-                        colonne2.appendChild(carte); // Ajouter à la colonne 2
-                    }
-                });
+                        if (sessionElement) {
+                            sessionElement.appendChild(carte);
+                        } else {
+                            console.warn(`Session with id "${sessionId}" not found.`);
+                        }
+                    });
+                }
             })
             .catch(function (error) {
-                // Gérer les erreurs
                 console.error("Erreur lors de la récupération des données :", error);
             });
     }

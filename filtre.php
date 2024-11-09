@@ -30,41 +30,40 @@ wp_enqueue_script(  'em_plugin_filtre_js',
 }
 add_action('wp_enqueue_scripts', 'ec_filtre_enqueue');
 
-
+add_filter(
+    "rest_post_query",
+    function ($args, $request) {
+        if ($request["cat_relation"] == "AND") {
+            $args["category__and"] = $request["categories"];
+        }
+        return $args;
+    },
+    10,
+    2
+);
 function mon_filtre($query) {
     if (!is_admin() && $query->is_main_query()) {
-        // Vérifie le type de contenu (seulement pour les projets)
-        $categorie_projets = get_category_by_slug('projets'); // Assure-toi que c'est le bon slug
-        if ($query->get('post_type') === 'projets') {
-            // Filtrer par la catégorie "Projets"
-            if ($categorie_projets) {
-                $query->set('cat', $categorie_projets->term_id);
-                
-                // Appliquer le filtre pour 'cours'
-                if (!empty($valeur_filtre)) {
-                    $query->set('meta_query', array(
-                        array(
-                            'key' => 'cours',
-                            'value' => $valeur_filtre,
-                            'compare' => '=' // Ou autre comparateur selon tes besoins
-                        )
-                    ));
-                }
-                
-                // Autres réglages de la requête
-                $query->set('posts_per_page', 10);
-                $query->set('orderby', 'date');
-                $query->set('order', 'DESC');
-            } else {
-                // Aucune catégorie trouvée
-                $query->set('post__in', array(0));
-            }
+        // Récupère la catégorie "Projets" avec le slug
+        $categorie_projets = get_category_by_slug('projets');
+
+        if ($categorie_projets) {
+            // Filtre uniquement les articles de la catégorie "Projets"
+            $query->set('cat', $categorie_projets->term_id);
+
+            // Limite les articles par page, les ordonne par date
+            $query->set('posts_per_page', 30);
+            $query->set('orderby', 'date');
+            $query->set('order', 'DESC');
+        } else {
+            // Si la catégorie "Projets" n'existe pas, retourne une requête vide
+            $query->set('post__in', array(0));
         }
-        
     }
 }
-
 add_action('pre_get_posts', 'mon_filtre');
+
+
+
 
 function generer_boutons_filtre_categorie_shortcode() {
     // Récupère l'ID de la catégorie "Filtres"
