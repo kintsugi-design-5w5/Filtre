@@ -66,30 +66,30 @@ add_action('pre_get_posts', 'mon_filtre');
 
 
 function generer_boutons_filtre_categorie_shortcode() {
-    // Récupère l'ID de la catégorie "Filtres"
-    $categorie_filtres = get_category_by_slug('filtres'); // Remplace 'filtres' par le slug correct de ta catégorie si nécessaire
+    $categorie_filtres = get_category_by_slug('filtres');
 
     // Initialise la variable de sortie
     $contenu = '
     <div class="composant-filtre">
-        <button class="bouton__categorie" id="cat_tous">TOUS</button>'; // Ajout du bouton "TOUS"
+        <button class="filtre-header" onclick="toggleCategories()">
+            <h3>Filtre</h3>
+            <i class="icone-filtre">⚙️</i>
+        </button>
+        <div class="categories" id="categories-container">
+            <button class="bouton__categorie" id="cat_tous">TOUS</button>';
 
     if ($categorie_filtres) {
-        // Récupère les catégories enfants de la catégorie "Filtres"
         $args = array(
             'child_of' => $categorie_filtres->term_id,
-            'hide_empty' => false, // Modifie à true si tu veux cacher les catégories vides
+            'hide_empty' => false,
         );
         $categories_enfants = get_categories($args);
 
-        // Vérifie si des catégories enfants sont disponibles
         if (!empty($categories_enfants)) {
-            // Boucle sur chaque catégorie enfant pour générer un bouton
             foreach ($categories_enfants as $categorie) {
                 $nom_categorie = esc_html($categorie->name);
                 $id_categorie = esc_attr($categorie->term_id);
 
-                // Génère un bouton avec l'attribut data-category
                 $contenu .= '<button class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
             }
         } else {
@@ -108,6 +108,7 @@ function generer_boutons_filtre_categorie_shortcode() {
     ';
     return $contenu;
 }
+
 
 // Enregistre le shortcode pour afficher les boutons
 add_shortcode('boutons_filtre_categorie', 'generer_boutons_filtre_categorie_shortcode');

@@ -1,10 +1,13 @@
 (function () {
     let bouton__categorie = document.querySelectorAll(".bouton__categorie");
     let url;
+    let nb_requete = 0;
 
     // Fonction pour gérer l'affichage des projets en fonction de la catégorie
     function chargerProjets(categorie) {
-        url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
+        nb_requete++;
+        // url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
+        url = `https://gftnth00.mywhc.ca/tim43/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
         console.log(url);
         fetchUrl(url);
     }
@@ -39,9 +42,8 @@
             `;
         } else if (typePage === "cours") {
             const sessionId = titre.charAt(4); // Le 4e caractère (indice 3)
-            console.log("Session ID: " + sessionId);
             carte.innerHTML = `
-                <li id="cours-${article.id}">
+                <li">
                     <h3 class="cercle petit cours-btn" id="titre-cours-${article.id}">${titreModifie}</h3>
                     <div class="description-cours" style="display: none;" id="description-cours-${article.id}">
                         <p>${contenu}</p>
@@ -127,10 +129,12 @@
                         let carte = afficherContenuSpecifique(article);
                         const sessionId = carte.dataset.sessionId;
                         const sessionElement = document.getElementById(sessionId);
-                        console.log("session-" + sessionId);
-                        sessionElement.style.display = "block";
+                        if (nb_requete > 1) {
+                            sessionElement.style.display = "block";
+                        }
 
                         if (sessionElement) {
+                            console.log(`carte`);
                             sessionElement.appendChild(carte);
                         } else {
                             console.warn(`Session with id "${sessionId}" not found.`);
@@ -142,4 +146,30 @@
                 console.error("Erreur lors de la récupération des données :", error);
             });
     }
+
+    function toggleCategories() {
+        const categoriesContainer = document.getElementById("categories-container");
+        categoriesContainer.classList.toggle("show");
+    }
+
+    function handleResize() {
+        const categoriesContainer = document.getElementById("categories-container");
+
+        // Si l'écran est de 768px ou moins, on cache les catégories
+        if (window.innerWidth <= 768) {
+            categoriesContainer.classList.remove("show");
+        } else {
+            // Au-dessus de 768px, on les affiche automatiquement
+            categoriesContainer.classList.add("show");
+        }
+    }
+
+    // Exécute handleResize au chargement de la page
+    window.addEventListener("load", handleResize);
+
+    // Exécute handleResize chaque fois que la fenêtre est redimensionnée
+    window.addEventListener("resize", handleResize);
+
+    // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
+    document.querySelector(".filtre-header").addEventListener("click", toggleCategories);
 })();

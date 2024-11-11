@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .composant-filtre {
   position: fixed;
   bottom: 15vh;
@@ -8,7 +9,10 @@
   justify-content: space-between;
   background-color: hsla(0, 0%, 30%, 0.3);
   backdrop-filter: blur(5px);
-  border-radius: 50px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
 }
 
 .bouton__categorie {
@@ -22,6 +26,7 @@
   margin: 0.5rem;
   border-radius: 50px;
   transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+  font-size: 1rem;
 }
 .bouton__categorie:hover {
   background-color: hsla(0, 0%, 50%, 0.3);
@@ -29,4 +34,47 @@
 
 .bouton__categorie__actif {
   background-color: #007bff;
+}
+
+.filtre-header {
+  display: none;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+  background: none;
+  border: none;
+}
+.filtre-header h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+}
+
+/* Styles pour mobile */
+@media (max-width: 768px) {
+  .composant-filtre {
+    background-color: transparent;
+    background-color: hsla(0, 0%, 30%, 0.3);
+    width: 70vw;
+    bottom: 10vh;
+  }
+  .filtre-header {
+    display: flex;
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    width: 100%;
+  }
+  .categories {
+    display: none;
+    flex-direction: column;
+  }
+  .categories.show {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes de taille égale */
+    width: 100%; /* Prend 100% de la largeur */
+  }
 }/*# sourceMappingURL=style.css.map */
