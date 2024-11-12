@@ -36,7 +36,7 @@
         if (typePage === "projets") {
             let image = article._embedded["wp:featuredmedia"] ? article._embedded["wp:featuredmedia"][0].source_url : "";
             carte.innerHTML = `
-                <a href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
+                <a data-icone="filter_list" href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
                     <h2>${titre}</h2>
                 </a>
             `;
@@ -134,7 +134,6 @@
                         }
 
                         if (sessionElement) {
-                            console.log(`carte`);
                             sessionElement.appendChild(carte);
                         } else {
                             console.warn(`Session with id "${sessionId}" not found.`);
@@ -164,11 +163,54 @@
         }
     }
 
-    // Exécute handleResize au chargement de la page
-    window.addEventListener("load", handleResize);
+    let isMobileView = false; // Variable pour suivre l'état de l'affichage mobile
 
-    // Exécute handleResize chaque fois que la fenêtre est redimensionnée
-    window.addEventListener("resize", handleResize);
+    function reorganizeColumns() {
+        const colonne1 = document.querySelector(".colonne-1");
+        const colonne2 = document.querySelector(".colonne-2");
+
+        if (window.innerWidth <= 768) {
+            if (!isMobileView) {
+                // Déplace les éléments de colonne-2 vers colonne-1 avec ordre alterné
+                Array.from(colonne2.children).forEach((child, index) => {
+                    const position = index * 2 + 1; // Place à la 2e, 4e, 6e position, etc.
+                    colonne1.insertBefore(child, colonne1.children[position] || null);
+                });
+                // Cache colonne-2
+                colonne2.style.display = "none";
+
+                // Marque qu'on est maintenant en mode mobile
+                isMobileView = true;
+            }
+        } else {
+            if (isMobileView) {
+                // Réinitialise les éléments dans colonne-2 pour les écrans plus larges
+                const elementsToMoveBack = Array.from(colonne1.children).filter((_, index) => index % 2 !== 0);
+
+                elementsToMoveBack.forEach((child) => {
+                    colonne2.appendChild(child);
+                });
+
+                // Affiche colonne-2
+                colonne2.style.display = "block";
+
+                // Marque qu'on est maintenant en mode desktop
+                isMobileView = false;
+            }
+        }
+    }
+
+    // Exécute handleResize et reorganizeColumns au chargement de la page
+    window.addEventListener("load", () => {
+        handleResize();
+        reorganizeColumns();
+    });
+
+    // Exécute handleResize et reorganizeColumns chaque fois que la fenêtre est redimensionnée
+    window.addEventListener("resize", () => {
+        handleResize();
+        reorganizeColumns();
+    });
 
     // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
     document.querySelector(".filtre-header").addEventListener("click", toggleCategories);

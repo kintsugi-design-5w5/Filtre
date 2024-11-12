@@ -73,10 +73,10 @@ function generer_boutons_filtre_categorie_shortcode() {
     <div class="composant-filtre">
         <button class="filtre-header" onclick="toggleCategories()">
             <h3>Filtre</h3>
-            <i class="icone-filtre">⚙️</i>
+            <i class="icone-filtre"><span class="material-symbols-outlined">filter_list</span></i>
         </button>
         <div class="categories" id="categories-container">
-            <button class="bouton__categorie" id="cat_tous">TOUS</button>';
+            <button data-icone="filter_list" class="bouton__categorie" id="cat_tous">TOUS</button>';
 
     if ($categorie_filtres) {
         $args = array(
@@ -90,7 +90,7 @@ function generer_boutons_filtre_categorie_shortcode() {
                 $nom_categorie = esc_html($categorie->name);
                 $id_categorie = esc_attr($categorie->term_id);
 
-                $contenu .= '<button class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
+                $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
             }
         } else {
             $contenu .= '<p>Aucune catégorie disponible.</p>';

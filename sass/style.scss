@@ -46,6 +46,11 @@
         font-size: 1rem;
         text-transform: uppercase;
     }
+
+    & i {
+        display: flex;
+        align-items: center;
+    }
 }
 
 .categories {
@@ -78,5 +83,14 @@
         gap: 10px;
         grid-template-columns: 1fr 1fr; /* Deux colonnes de taille égale */
         width: 100%; /* Prend 100% de la largeur */
+    }
+
+    .feed .colonne-proj {
+        width: auto;
+    }
+
+    .material-symbols-outlined {
+        font-size: 1.5rem;
+        line-height: 00.8rem;
     }
 }
