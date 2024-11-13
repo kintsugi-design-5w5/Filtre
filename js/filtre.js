@@ -3,14 +3,6 @@
   let url;
   let nb_requete = 0;
 
-  // Fonction pour fermer toutes les sessions de cours
-  function fermerToutesLesSessions() {
-    let sessions = document.querySelectorAll(".cours");
-    sessions.forEach((session) => {
-      session.innerHTML = ""; // Vide le contenu de chaque session
-    });
-  }
-
   // Fonction pour gérer l'affichage des projets en fonction de la catégorie
   function chargerProjets(categorie) {
     nb_requete++;
