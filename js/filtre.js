@@ -7,7 +7,7 @@
   function chargerProjets(categorie) {
     nb_requete++;
     // url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
-    url = `https://gftnth00.mywhc.ca/tim43/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
+    url = `https://gftnth00.mywhc.ca/tim43/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=id,link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
     console.log(url);
     fetchUrl(url);
   }
@@ -45,9 +45,9 @@
     } else if (typePage === "cours") {
       const sessionId = titre.charAt(4); // Le 4e caractère (indice 3)
       carte.innerHTML = `
-                <li">
-                    <h3 class="cercle petit cours-btn" id="titre-cours-${article.id}">${titreModifie}</h3>
-                    <div class="description-cours" style="display: none;" id="description-cours-${article.id}">
+                <li>
+                    <h3 class="cercle petit cours-btn" data-cours-id="${article.id}">${titreModifie}</h3>
+                    <div class="description-cours" id="description-${article.id}">
                         <p>${contenu}</p>
                     </div>
                 </li>
