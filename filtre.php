@@ -89,7 +89,6 @@ function generer_boutons_filtre_categorie_shortcode() {
             foreach ($categories_enfants as $categorie) {
                 $nom_categorie = esc_html($categorie->name);
                 $id_categorie = esc_attr($categorie->term_id);
-
                 $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
             }
         } else {
