@@ -42,9 +42,9 @@
         } else if (typePage === "cours") {
             const sessionId = titre.charAt(4); // Le 4e caractère (indice 3)
             carte.innerHTML = `
-                <li>
-                    <h3 class="cercle petit cours-btn" data-cours-id="${article.id}">${titreModifie}</h3>
-                    <div class="description-cours" id="description-${article.id}">
+                <li">
+                    <h3 data-icone="keyboard_arrow_down" data-cours-id="${article.id}" class="cercle petit cours-btn" id="titre-cours-${article.id}">${titreModifie}</h3>
+                    <div class="description-cours" data-cours-id="${article.id}" id="description-cours-${article.id}">
                         <p>${contenu}</p>
                     </div>
                 </li>
