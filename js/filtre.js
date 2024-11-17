@@ -45,7 +45,7 @@
                 <li>
                     <h3 data-icone="keyboard_arrow_down" class="cercle petit cours-btn" data-cours-id="${article.id}">${titreModifie}</h3>
                     <div class="description-cours" id="description-cours-${article.id}">
-                        <p>${contenu}</p>
+                        ${contenu}
                     </div>
                 </li>
             `;
