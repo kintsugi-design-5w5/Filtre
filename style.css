@@ -16,6 +16,11 @@
   flex-direction: column-reverse;
   align-items: center;
 }
+@media screen and (max-width: 768px) {
+  .composant-filtre {
+    min-width: 70vw;
+  }
+}
 
 .bouton__categorie {
   font-family: "Josefin Sans", sans-serif;
