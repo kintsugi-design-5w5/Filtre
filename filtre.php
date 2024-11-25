@@ -82,41 +82,41 @@ function generer_boutons_filtre_categorie_shortcode() {
 
     // Initialise le contenu HTML du shortcode
     $contenu = '
-    <div class="composant-filtre">
-        <button class="filtre-header" onclick="toggleCategories()">
-            <h3>Filtre</h3>
-            <i class="icone-filtre"><span class="material-symbols-outlined">filter_list</span></i>
-        </button>
-        <div class="categories" id="categories-container">
-            <button data-icone="filter_list" class="bouton__categorie" id="cat_tous">TOUS</button>';
+        <div class="composant-filtre">
+            <button class="filtre-header" onclick="toggleCategories()">
+                <h3>Filtre</h3>
+                <i class="icone-filtre"><span class="material-symbols-outlined">filter_list</span></i>
+            </button>
+            <div class="categories" id="categories-container">
+                <button data-icone="filter_list" class="bouton__categorie" id="cat_tous">TOUS</button>';
 
-    // Si la catégorie "Filtres" existe, récupère ses sous-catégories
-    if ($categorie_filtres) {
-        $args = array(
-            'child_of' => $categorie_filtres->term_id,  // Récupère les sous-catégories de "Filtres"
-            'hide_empty' => false,  // Inclut les catégories vides
-        );
-        $categories_enfants = get_categories($args);
+        // Si la catégorie "Filtres" existe, récupère ses sous-catégories
+        if ($categorie_filtres) {
+            $args = array(
+                'child_of' => $categorie_filtres->term_id,  // Récupère les sous-catégories de "Filtres"
+                'hide_empty' => false,  // Inclut les catégories vides
+            );
+            $categories_enfants = get_categories($args);
 
-        if (!empty($categories_enfants)) {
-            // Pour chaque sous-catégorie, crée un bouton de filtre
-            foreach ($categories_enfants as $categorie) {
-                $nom_categorie = esc_html($categorie->name);  // Échappe le nom de la catégorie
-                $id_categorie = esc_attr($categorie->term_id);  // Échappe l'ID de la catégorie
-                $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
+            if (!empty($categories_enfants)) {
+                // Pour chaque sous-catégorie, crée un bouton de filtre
+                foreach ($categories_enfants as $categorie) {
+                    $nom_categorie = esc_html($categorie->name);  // Échappe le nom de la catégorie
+                    $id_categorie = esc_attr($categorie->term_id);  // Échappe l'ID de la catégorie
+                    $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
+                }
+            } else {
+                // Si aucune sous-catégorie n'existe, affiche un message d'absence de catégorie
+                $contenu .= '<p>Aucune catégorie disponible.</p>';
             }
         } else {
-            // Si aucune sous-catégorie n'existe, affiche un message d'absence de catégorie
-            $contenu .= '<p>Aucune catégorie disponible.</p>';
+            // Si la catégorie "Filtres" n'existe pas, affiche un message d'erreur
+            $contenu .= '<p>La catégorie "Filtres" n\'existe pas.</p>';
         }
-    } else {
-        // Si la catégorie "Filtres" n'existe pas, affiche un message d'erreur
-        $contenu .= '<p>La catégorie "Filtres" n\'existe pas.</p>';
-    }
 
-    // Ajoute la fin du contenu HTML du shortcode
-    $contenu .= '</div> 
-    </div>
+        // Ajoute la fin du contenu HTML du shortcode
+        $contenu .= '</div> 
+        </div>
     <section class="feed projets-apercus">
         <div class="contenu__restapi colonne-proj colonne-1"></div>
         <div class="contenu__restapi colonne-proj colonne-2"></div>
