@@ -3,14 +3,18 @@
   position: sticky;
   top: 85vh;
   z-index: 2;
+  max-width: -moz-fit-content;
   max-width: fit-content;
   width: auto;
+  min-height: -moz-fit-content;
   min-height: fit-content;
+  min-width: -moz-fit-content;
   min-width: fit-content;
   margin: 0 auto;
   height: auto;
   background-color: hsla(0, 0%, 30%, 0.3);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
   border-radius: 30px;
   display: flex;
   justify-content: space-between;
@@ -33,6 +37,7 @@
   padding: 1rem 1rem 0.7rem 1rem;
   margin: 0.5rem;
   border-radius: 50px;
+  z-index: 2;
   transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
   font-size: clamp(0.75rem, 1vw, 1.5rem);
 }
@@ -45,8 +50,8 @@
   background-color: hsla(0, 0%, 50%, 0.5);
 }
 
-.bouton__categorie__actif {
-  background-color: #007bff;
+.bouton__categorie__actif:hover {
+  background-color: transparent;
 }
 
 .filtre-header {
@@ -71,11 +76,28 @@
   z-index: -1;
 }
 
+.selection {
+  transform-origin: center;
+  position: absolute;
+  background-color: #007bff;
+  padding: 1rem 1rem 0.7rem 1rem;
+  margin: 0.5rem;
+  border-radius: 50px;
+  transition: transform 0.5s ease, width 0.5s ease;
+  z-index: 1;
+}
+@media screen and (max-width: 768px) {
+  .selection {
+    display: none;
+  }
+}
+
 /* Styles pour mobile */
 @media (max-width: 768px) {
   .composant-filtre {
     background-color: transparent;
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
     width: 70vw;
     bottom: 10vh;
     overflow: hidden;
@@ -86,7 +108,8 @@
   .filtre-header {
     display: flex;
     background-color: hsla(0, 0%, 30%, 0.3);
-    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
     border-radius: 30px;
     border-radius: 30px;
     width: 100%;
@@ -96,7 +119,8 @@
     bottom: 0;
     left: 0;
     background-color: hsla(0, 0%, 30%, 0.5);
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
     border-radius: 30px;
     padding-bottom: 20%;
     display: block;
@@ -117,5 +141,8 @@
   .material-symbols-outlined {
     font-size: 1.5rem;
     line-height: 0.8rem;
+  }
+  .bouton__categorie__actif {
+    background-color: #007bff;
   }
 }/*# sourceMappingURL=style.css.map */

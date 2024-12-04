@@ -115,6 +115,7 @@ function generer_boutons_filtre_categorie_shortcode() {
         }
 
         // Ajoute la fin du contenu HTML du shortcode
+        $contenu .= '<div class="selection"></div>';
         $contenu .= '</div> 
         </div>
     <section class="feed projets-apercus">

@@ -4,6 +4,8 @@
         let bouton__categorie = document.querySelectorAll(".bouton__categorie");
         let url;
         let premiereRequeteTous = true;
+        let selection = document.querySelector(".selection");
+        let elementSelectionne;
 
         // Fonction pour gérer l'affichage des projets en fonction de la catégorie
         function chargerProjets(categorie) {
@@ -87,6 +89,11 @@
             console.log(boutonCategorie);
             if (boutonCategorie) {
                 boutonCategorie.classList.add("bouton__categorie__actif");
+                elementSelectionne = boutonCategorie;
+                AnimerSelection();
+                // selection.style.transform = `translateX(${boutonCategorie.offsetLeft - selection.offsetLeft}px)`;
+                // selection.style.width = `${boutonCategorie.offsetWidth}px`;
+                // selection.style.height = `${boutonCategorie.offsetHeight}px`;
             }
 
             // Charge les projets ou cours en fonction de la catégorie et du type de page
@@ -110,6 +117,11 @@
                 } else if (typePage === "cours") {
                     chargerProjets("2"); // Charger tous les cours par défaut
                 }
+                elementSelectionne = boutonTous;
+                AnimerSelection();
+                // selection.style.transform = `translateX(${boutonTous.offsetLeft - selection.offsetLeft}px)`;
+                // selection.style.width = `${boutonTous.offsetWidth}px`;
+                // selection.style.height = `${boutonTous.offsetHeight}px`;
             }
         }
 
@@ -138,6 +150,14 @@
                     }
                 }
                 chargerProjets(categorie);
+
+                //Animer le bouton
+                elementSelectionne = elm;
+                AnimerSelection();
+                // selection.style.transform = `translateX(${elm.offsetLeft - selection.offsetLeft}px)`;
+                // selection.style.width = `${elm.offsetWidth}px`;
+                // selection.style.height = `${elm.offsetHeight}px`;
+
             });
         }
 
@@ -270,6 +290,14 @@
             }
         }
 
+        function AnimerSelection(){
+            if (window.innerWidth >= 768) {
+                selection.style.transform = `translateX(${elementSelectionne.offsetLeft - selection.offsetLeft}px)`;
+                selection.style.width = `${elementSelectionne.offsetWidth}px`;
+                selection.style.height = `${elementSelectionne.offsetHeight}px`;
+            }
+        }
+
         // Exécute handleResize et reorganizeColumns au chargement de la page
         window.addEventListener("load", () => {
             handleResize();
@@ -280,6 +308,7 @@
         window.addEventListener("resize", () => {
             handleResize();
             reorganizeColumns();
+            AnimerSelection();
         });
 
         // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories

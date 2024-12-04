@@ -34,6 +34,7 @@
     padding: 1rem 1rem 0.7rem 1rem;
     margin: 0.5rem;
     border-radius: 50px;
+    z-index: 2;
     transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
     // font-size: 1rem;
     // font-size: 1vw;
@@ -45,8 +46,8 @@
         background-color: hsla(0, 0%, 50%, 0.5);
     }
 }
-.bouton__categorie__actif {
-    background-color: #007bff;
+.bouton__categorie__actif:hover {
+    background-color: transparent;
 }
 
 .filtre-header {
@@ -73,6 +74,21 @@
     gap: 10px;
     // width: 100%;
     z-index: -1;
+}
+
+.selection{
+    transform-origin: center;
+    position: absolute;
+    background-color: #007bff;
+    padding: 1rem 1rem 0.7rem 1rem;
+    margin: 0.5rem;
+    border-radius: 50px;
+    transition: transform 0.5s ease, width 0.5s ease;
+    z-index: 1;
+
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 }
 
 /* Styles pour mobile */
@@ -125,5 +141,8 @@
     .material-symbols-outlined {
         font-size: 1.5rem;
         line-height: 00.8rem;
+    }
+    .bouton__categorie__actif{
+        background-color: #007bff;
     }
 }
