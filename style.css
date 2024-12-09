@@ -42,12 +42,16 @@
     font-size: 1rem;
   }
 }
-.bouton__categorie:hover {
-  background-color: hsla(0, 0%, 50%, 0.5);
+@media (min-width: 768px) {
+  .bouton__categorie:hover {
+    background-color: hsla(0, 0%, 50%, 0.5);
+  }
 }
 
-.bouton__categorie__actif:hover {
-  background-color: transparent;
+@media (min-width: 768px) {
+  .bouton__categorie__actif:hover {
+    background-color: transparent;
+  }
 }
 
 .filtre-header {
@@ -96,8 +100,8 @@
     width: 70vw;
     bottom: 10vh;
     overflow: hidden;
-    margin-top: -90%;
-    padding-top: 90%;
+    margin-top: -100%;
+    padding-top: 100%;
     top: 40vh;
   }
   .filtre-header {
