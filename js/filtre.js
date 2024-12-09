@@ -51,10 +51,11 @@
                 // let nomCategorie = categorieFiltre ? categorieFiltre.name : "Non classé";
 
                 carte.innerHTML = `
-                <a data-icone="visibility" href="${lien}" style="background-image: url('${image}');" class="thumbnail-projet">
-                    <h2 class="ombre-texte">${titre}</h2>
-                    <h4 class="ombre-texte">${nomCategorie}</h4>
-                </a>
+                    <a data-icone="visibility" href="${lien}" class="thumbnail-projet">
+                    <div style="background-image: url('${image}');"> </div>
+                    <h2 class="titre-projet">${titre}</h2>
+                    <h4 class="cours-projet">${nomCategorie}</h4>
+                    </a>
             `;
             } else if (typePage === "cours") {
                 const sessionId = titre.charAt(4); // Le 4e caractère (indice 3)
@@ -157,7 +158,6 @@
                 // selection.style.transform = `translateX(${elm.offsetLeft - selection.offsetLeft}px)`;
                 // selection.style.width = `${elm.offsetWidth}px`;
                 // selection.style.height = `${elm.offsetHeight}px`;
-
             });
         }
 
@@ -290,7 +290,7 @@
             }
         }
 
-        function AnimerSelection(){
+        function AnimerSelection() {
             if (window.innerWidth >= 768) {
                 selection.style.transform = `translateX(${elementSelectionne.offsetLeft - selection.offsetLeft}px)`;
                 selection.style.width = `${elementSelectionne.offsetWidth}px`;

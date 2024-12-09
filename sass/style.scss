@@ -42,12 +42,16 @@
     @media (max-width: 768px) {
         font-size: 1rem;
     }
-    &:hover {
-        background-color: hsla(0, 0%, 50%, 0.5);
+    @media (min-width: 768px) {
+        &:hover {
+            background-color: hsla(0, 0%, 50%, 0.5);
+        }
     }
 }
 .bouton__categorie__actif:hover {
-    background-color: transparent;
+    @media (min-width: 768px) {
+        background-color: transparent;
+    }
 }
 
 .filtre-header {
@@ -76,7 +80,7 @@
     z-index: -1;
 }
 
-.selection{
+.selection {
     transform-origin: center;
     position: absolute;
     background-color: #007bff;
@@ -99,8 +103,8 @@
         width: 70vw;
         bottom: 10vh;
         overflow: hidden;
-        margin-top: -90%;
-        padding-top: 90%;
+        margin-top: -100%;
+        padding-top: 100%;
         top: 40vh;
     }
     .filtre-header {
@@ -142,7 +146,7 @@
         font-size: 1.5rem;
         line-height: 00.8rem;
     }
-    .bouton__categorie__actif{
+    .bouton__categorie__actif {
         background-color: #007bff;
     }
 }

@@ -83,40 +83,59 @@ function generer_boutons_filtre_categorie_shortcode() {
     // Initialise le contenu HTML du shortcode
     $contenu = '
         <div class="composant-filtre">
-            <button class="filtre-header" onclick="toggleCategories()">
+            <button class="filtre-header">
                 <h3>Filtre</h3>
                 <i class="icone-filtre"><span class="material-symbols-outlined">filter_list</span></i>
             </button>
             <div class="categories" id="categories-container">
                 <button data-icone="filter_list" class="bouton__categorie" id="cat_tous">TOUS</button>';
 
-        // Si la catégorie "Filtres" existe, récupère ses sous-catégories
-        if ($categorie_filtres) {
-            $args = array(
-                'child_of' => $categorie_filtres->term_id,  // Récupère les sous-catégories de "Filtres"
-                'hide_empty' => false,  // Inclut les catégories vides
-            );
-            $categories_enfants = get_categories($args);
+    // Si la catégorie "Filtres" existe, récupère ses sous-catégories
+    if ($categorie_filtres) {
+        $args = array(
+            'child_of' => $categorie_filtres->term_id,  // Récupère les sous-catégories de "Filtres"
+            'hide_empty' => false,  // Inclut les catégories vides
+        );
+        $categories_enfants = get_categories($args);
 
-            if (!empty($categories_enfants)) {
-                // Pour chaque sous-catégorie, crée un bouton de filtre
-                foreach ($categories_enfants as $categorie) {
-                    $nom_categorie = esc_html($categorie->name);  // Échappe le nom de la catégorie
-                    $id_categorie = esc_attr($categorie->term_id);  // Échappe l'ID de la catégorie
-                    $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
+        if (!empty($categories_enfants)) {
+            // Sépare les catégories normales de "Autre"
+            $autre_categorie = null;
+            $autres_categories = [];
+
+            foreach ($categories_enfants as $categorie) {
+                if (strtolower($categorie->name) === "autre") {
+                    $autre_categorie = $categorie; // Stocke "Autre"
+                } else {
+                    $autres_categories[] = $categorie; // Stocke les autres catégories
                 }
-            } else {
-                // Si aucune sous-catégorie n'existe, affiche un message d'absence de catégorie
-                $contenu .= '<p>Aucune catégorie disponible.</p>';
+            }
+
+            // Crée les boutons pour les catégories normales
+            foreach ($autres_categories as $categorie) {
+                $nom_categorie = esc_html($categorie->name);  // Échappe le nom de la catégorie
+                $id_categorie = esc_attr($categorie->term_id);  // Échappe l'ID de la catégorie
+                $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
+            }
+
+            // Ajoute le bouton "Autre" à la fin s'il existe
+            if ($autre_categorie) {
+                $nom_categorie = esc_html($autre_categorie->name);
+                $id_categorie = esc_attr($autre_categorie->term_id);
+                $contenu .= '<button data-icone="filter_list" class="bouton__categorie" id="cat_' . $id_categorie . '">' . $nom_categorie . '</button>';
             }
         } else {
-            // Si la catégorie "Filtres" n'existe pas, affiche un message d'erreur
-            $contenu .= '<p>La catégorie "Filtres" n\'existe pas.</p>';
+            // Si aucune sous-catégorie n'existe, affiche un message d'absence de catégorie
+            $contenu .= '<p>Aucune catégorie disponible.</p>';
         }
+    } else {
+        // Si la catégorie "Filtres" n'existe pas, affiche un message d'erreur
+        $contenu .= '<p>La catégorie "Filtres" n\'existe pas.</p>';
+    }
 
-        // Ajoute la fin du contenu HTML du shortcode
-        $contenu .= '<div class="selection"></div>';
-        $contenu .= '</div> 
+    // Ajoute la fin du contenu HTML du shortcode
+    $contenu .= '<div class="selection"></div>';
+    $contenu .= '</div> 
         </div>
     <section class="feed projets-apercus">
         <div class="contenu__restapi colonne-proj colonne-1"></div>
@@ -126,6 +145,7 @@ function generer_boutons_filtre_categorie_shortcode() {
     
     return $contenu;  // Retourne le contenu généré par le shortcode
 }
+
 
 // Enregistre le shortcode 'boutons_filtre_categorie' pour afficher les boutons
 add_shortcode('boutons_filtre_categorie', 'generer_boutons_filtre_categorie_shortcode');
