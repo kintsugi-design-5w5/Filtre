@@ -101,11 +101,10 @@
         background-color: transparent;
         backdrop-filter: none;
         width: 70vw;
-        bottom: 10vh;
-        overflow: hidden;
-        margin-top: -100%;
-        padding-top: 100%;
-        top: 40vh;
+        // overflow: hidden;
+        // margin-top: -100%;
+        // padding-top: 100%;
+        top: 80vh;
     }
     .filtre-header {
         display: flex;
@@ -124,22 +123,26 @@
         backdrop-filter: blur(10px);
         border-radius: 30px;
         padding-bottom: 20%;
-        display: block;
         flex-direction: column;
-        transform: translateY(100%);
-        transition: transform 0.5s ease;
+        transform: scaleY(0);
+        filter: blur(10px);
         display: grid;
+        opacity: 0;
         gap: 10px;
         grid-template-columns: 1fr 1fr; /* Deux colonnes de taille égale */
         width: 100%; /* Prend 100% de la largeur */
+        transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+        transform-origin: center bottom;
+        pointer-events: none;
     }
 
     .categories.show {
-        transform: translateY(0);
-    }
+        // display: grid;
+        transform: scaleY(1);
+        opacity: 1;
+        filter: blur(0px);
 
-    .feed .colonne-proj {
-        width: auto;
+        pointer-events: all;
     }
 
     .material-symbols-outlined {
