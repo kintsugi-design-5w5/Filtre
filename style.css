@@ -98,11 +98,7 @@
     background-color: transparent;
     backdrop-filter: none;
     width: 70vw;
-    bottom: 10vh;
-    overflow: hidden;
-    margin-top: -100%;
-    padding-top: 100%;
-    top: 40vh;
+    top: 80vh;
   }
   .filtre-header {
     display: flex;
@@ -119,21 +115,24 @@
     background-color: hsla(0, 0%, 30%, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 30px;
-    padding-bottom: 20%;
-    display: block;
+    padding-bottom: 15%;
     flex-direction: column;
-    transform: translateY(100%);
-    transition: transform 0.5s ease;
+    transform: scaleY(0);
+    filter: blur(10px);
     display: grid;
+    opacity: 0;
     gap: 10px;
     grid-template-columns: 1fr 1fr; /* Deux colonnes de taille égale */
     width: 100%; /* Prend 100% de la largeur */
+    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+    transform-origin: center bottom;
+    pointer-events: none;
   }
   .categories.show {
-    transform: translateY(0);
-  }
-  .feed .colonne-proj {
-    width: auto;
+    transform: scaleY(1);
+    opacity: 1;
+    filter: blur(0px);
+    pointer-events: all;
   }
   .material-symbols-outlined {
     font-size: 1.5rem;
