@@ -115,7 +115,7 @@
     background-color: hsla(0, 0%, 30%, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 30px;
-    padding-bottom: 15%;
+    padding-bottom: 20%;
     flex-direction: column;
     transform: scaleY(0);
     filter: blur(10px);

@@ -10,7 +10,7 @@
         // Fonction pour gérer l'affichage des projets en fonction de la catégorie
         function chargerProjets(categorie) {
             // url = `http://localhost/5w5/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
-            url = `https://gftnth00.mywhc.ca/tim43/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=id,link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=30`;
+            url = `https://gftnth00.mywhc.ca/tim43/wp-json/wp/v2/posts?categories=${categorie}&cat_relation=AND&_fields=id,link,title,content,terms,featured_media,_links,_embedded&_embed&per_page=100`;
             console.log(url);
             fetchUrl(url);
         }
@@ -235,12 +235,6 @@
                     console.error("Erreur lors de la récupération des données :", error);
                 });
         }
-
-        function toggleCategories() {
-            const categoriesContainer = document.getElementById("categories-container");
-            categoriesContainer.classList.toggle("show");
-        }
-
         function handleResize() {
             const categoriesContainer = document.getElementById("categories-container");
 
@@ -251,6 +245,39 @@
                 // Au-dessus de 768px, on les affiche automatiquement
                 categoriesContainer.classList.add("show");
             }
+        }
+
+        // Exécute handleResize et reorganizeColumns au chargement de la page
+        window.addEventListener("load", () => {
+            handleResize();
+        });
+
+        // Exécute handleResize et reorganizeColumns chaque fois que la fenêtre est redimensionnée
+        window.addEventListener("resize", () => {
+            handleResize();
+            AnimerSelection();
+        });
+
+        // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
+        document.querySelector(".filtre-header").addEventListener("click", toggleCategories);
+
+        // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
+        document.querySelector(".filtre-header").addEventListener("click", toggleCategories);
+
+        function AnimerSelection() {
+            if (window.innerWidth >= 768) {
+                selection.style.transform = `translateX(${elementSelectionne.offsetLeft - selection.offsetLeft}px)`;
+                selection.style.width = `${elementSelectionne.offsetWidth}px`;
+                selection.style.height = `${elementSelectionne.offsetHeight}px`;
+            }
+        }
+    }
+    let composantColonne = document.querySelector(".colonne-proj");
+    if (composantColonne) {
+        console.log("colonne");
+        function toggleCategories() {
+            const categoriesContainer = document.getElementById("categories-container");
+            categoriesContainer.classList.toggle("show");
         }
 
         let isMobileView = false; // Variable pour suivre l'état de l'affichage mobile
@@ -290,28 +317,14 @@
             }
         }
 
-        function AnimerSelection() {
-            if (window.innerWidth >= 768) {
-                selection.style.transform = `translateX(${elementSelectionne.offsetLeft - selection.offsetLeft}px)`;
-                selection.style.width = `${elementSelectionne.offsetWidth}px`;
-                selection.style.height = `${elementSelectionne.offsetHeight}px`;
-            }
-        }
-
         // Exécute handleResize et reorganizeColumns au chargement de la page
         window.addEventListener("load", () => {
-            handleResize();
             reorganizeColumns();
         });
 
         // Exécute handleResize et reorganizeColumns chaque fois que la fenêtre est redimensionnée
         window.addEventListener("resize", () => {
-            handleResize();
             reorganizeColumns();
-            AnimerSelection();
         });
-
-        // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
-        document.querySelector(".filtre-header").addEventListener("click", toggleCategories);
     }
 })();
