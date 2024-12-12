@@ -39,7 +39,7 @@
 }
 @media (max-width: 768px) {
   .bouton__categorie {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 768px) {
@@ -99,14 +99,17 @@
     backdrop-filter: none;
     width: 70vw;
     top: 80vh;
+    margin-bottom: 5vh;
+    margin-top: 5vh;
   }
   .filtre-header {
     display: flex;
     background-color: hsla(0, 0%, 30%, 0.3);
     backdrop-filter: blur(5px);
     border-radius: 30px;
-    border-radius: 30px;
     width: 100%;
+    z-index: 10;
+    pointer-events: all;
   }
   .categories {
     position: absolute;
@@ -115,7 +118,7 @@
     background-color: hsla(0, 0%, 30%, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 30px;
-    padding-bottom: 20%;
+    padding-bottom: 25%;
     flex-direction: column;
     transform: scaleY(0);
     filter: blur(10px);
@@ -127,6 +130,8 @@
     transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
     transform-origin: center bottom;
     pointer-events: none;
+    z-index: 2;
+    max-width: 100%;
   }
   .categories.show {
     transform: scaleY(1);

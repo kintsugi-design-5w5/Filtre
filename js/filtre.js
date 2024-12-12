@@ -261,9 +261,6 @@
         // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
         document.querySelector(".filtre-header").addEventListener("click", toggleCategories);
 
-        // Ajoute un écouteur de clic sur le bouton de filtre pour appeler toggleCategories
-        document.querySelector(".filtre-header").addEventListener("click", toggleCategories);
-
         function AnimerSelection() {
             if (window.innerWidth >= 768) {
                 selection.style.transform = `translateX(${elementSelectionne.offsetLeft - selection.offsetLeft}px)`;
@@ -271,14 +268,14 @@
                 selection.style.height = `${elementSelectionne.offsetHeight}px`;
             }
         }
-    }
-    let composantColonne = document.querySelector(".colonne-proj");
-    if (composantColonne) {
-        console.log("colonne");
         function toggleCategories() {
             const categoriesContainer = document.getElementById("categories-container");
             categoriesContainer.classList.toggle("show");
         }
+    }
+    let composantColonne = document.querySelector(".colonne-proj");
+    if (composantColonne) {
+        console.log("colonne");
 
         let isMobileView = false; // Variable pour suivre l'état de l'affichage mobile
 
